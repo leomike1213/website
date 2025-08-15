@@ -1,0 +1,308 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lenny Murimi — Portfolio</title>
+
+  <!-- Modern font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg-deep: #021225;
+      --blue-1: #00d4ff;
+      --blue-2: #0077ff;
+      --glass: rgba(255,255,255,0.06);
+      --glass-strong: rgba(255,255,255,0.12);
+      --accent: #ffd85a;
+      --maxw: 1150px;
+      --radius: 14px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:'Poppins',system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+      background: linear-gradient(180deg,var(--bg-deep) 0%, #032a4a 45%, #052a51 100%);
+      color: #eaf6ff;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+      -webkit-text-size-adjust:100%;
+      -ms-text-size-adjust:100%;
+    }
+
+    /* decorative animated layers */
+    .bg-shimmer{
+      position:fixed; inset:0; z-index:0; pointer-events:none;
+      background:
+        radial-gradient(900px 420px at 8% 12%, rgba(0,212,255,0.08), transparent 12%),
+        linear-gradient(120deg, rgba(0,119,255,0.06), rgba(0,212,255,0.04), rgba(0,119,255,0.06));
+      mix-blend-mode:screen;
+      animation: shimmerMove 12s linear infinite;
+      opacity:0.9;
+    }
+    @keyframes shimmerMove{ 0%{transform:translateX(-8%)} 50%{transform:translateX(6%)} 100%{transform:translateX(-8%)} }
+    .luminous{
+      position:fixed; inset:-10% -20% -10% -20%; z-index:0; pointer-events:none;
+      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.06) 45%, rgba(255,255,255,0) 55%);
+      transform:translateX(-120%) rotate(-6deg);
+      animation: sweep 9s linear infinite;
+      mix-blend-mode:overlay; opacity:0.7;
+    }
+    @keyframes sweep{ 0%{transform:translateX(-120%) rotate(-6deg)} 50%{transform:translateX(20%) rotate(-6deg)} 100%{transform:translateX(120%) rotate(-6deg)} }
+
+    /* container */
+    .wrap{max-width:var(--maxw);margin:0 auto;padding:28px;position:relative;z-index:1}
+
+    /* header / hero */
+    header.site-hero{
+      display:flex;flex-direction:column;align-items:center;gap:12px;padding:34px 16px 18px;text-align:center;
+    }
+    .avatar{
+      width:170px;height:170px;border-radius:50%;overflow:hidden;border:6px solid rgba(255,255,255,0.14);
+      box-shadow: 0 18px 50px rgba(0,60,130,0.45), 0 6px 18px rgba(0,0,0,0.6);
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      transition:transform .45s cubic-bezier(.2,.9,.2,1), box-shadow .45s;
+    }
+    .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+    .avatar:hover{ transform: translateY(-6px) scale(1.02); box-shadow:0 26px 70px rgba(0,120,255,0.18); }
+
+    .hero-name{
+      margin-top:6px;font-size:clamp(1.4rem,2.8vw,2.4rem);font-weight:700;color:#fff;letter-spacing:.2px;
+      text-shadow: 0 8px 30px rgba(0,100,255,0.12);
+    }
+    .hero-sub{color: rgba(234,246,255,0.92);max-width:740px;margin-top:6px;font-size:clamp(.95rem,1.6vw,1.08rem)}
+
+    nav.top-nav{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;justify-content:center;z-index:2}
+    nav.top-nav a{
+      display:inline-block;padding:8px 14px;border-radius:999px;background:linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      color: #eaf6ff;text-decoration:none;font-weight:600;box-shadow:0 8px 26px rgba(0,60,120,0.08);transition:all .18s;
+    }
+    nav.top-nav a:hover{
+      transform:translateY(-6px) scale(1.02);background:linear-gradient(90deg,var(--blue-1),var(--blue-2));color:#002033;
+      box-shadow:0 22px 60px rgba(0,120,255,0.18);
+    }
+
+    /* layout */
+    .sections{display:grid;gap:22px;margin-top:28px}
+    @media(min-width:1000px){ .sections{ grid-template-columns: 1fr 380px; align-items:start } }
+
+    .glass{ background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius:var(--radius);padding:18px;box-shadow:0 12px 36px rgba(0,20,60,0.45);
+            backdrop-filter: blur(8px) saturate(120%); transition: transform .28s ease, box-shadow .28s; }
+    .glass:hover{ transform: translateY(-6px); box-shadow:0 28px 80px rgba(0,60,140,0.16); }
+    .glass h2{ margin-bottom:10px;color:#eaf6ff;text-shadow:0 8px 30px rgba(0,120,255,0.08) }
+
+    /* projects */
+    .projects-grid{display:grid;gap:14px}
+    @media(min-width:680px){ .projects-grid{ grid-template-columns: repeat(2, 1fr); } }
+    .project{ border-radius:12px;overflow:hidden;display:flex;flex-direction:column;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.04);
+      transition: transform .28s, box-shadow .28s; }
+    .project:hover{ transform: translateY(-10px); box-shadow:0 30px 80px rgba(0,80,200,0.12); }
+    .project .media{height:160px;background-size:cover;background-position:center;flex-shrink:0}
+    .project .meta{padding:14px;display:flex;flex-direction:column;gap:10px}
+    .project .meta .title{font-weight:700;color:#eaf6ff}
+    .project .meta .desc{color:rgba(234,246,255,0.84);font-size:.95rem}
+    .project .meta .links{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
+    .link-btn{display:inline-block;padding:8px 10px;border-radius:8px;background:linear-gradient(90deg,var(--blue-1),var(--blue-2));color:#002033;font-weight:700;text-decoration:none;box-shadow:0 12px 36px rgba(0,120,255,0.12);transition:transform .18s}
+    .link-btn:hover{transform:translateY(-6px);}
+
+    /* side content */
+    .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+    .chip{padding:8px 12px;border-radius:999px;background:linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));color:#eaf6ff;font-weight:600;box-shadow:0 8px 26px rgba(0,80,180,0.06);transition:transform .18s}
+    .chip:hover{ transform:translateY(-6px); background: linear-gradient(90deg,var(--blue-1),var(--blue-2)); color:#001426 }
+
+    .timeline{border-left:3px solid rgba(255,255,255,0.04);padding-left:12px}
+    .timeline .event{position:relative;margin-bottom:14px;padding-left:12px}
+    .timeline .event:before{ content:"";position:absolute;left:-14px;top:6px;width:18px;height:18px;border-radius:50%;
+      background:linear-gradient(90deg,var(--blue-1),var(--blue-2));box-shadow:0 10px 30px rgba(0,110,255,0.12); }
+
+    .testimonials{display:grid;gap:12px}@media(min-width:680px){ .testimonials{grid-template-columns:repeat(2,1fr)} }
+    .testimonial{padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));}
+
+    .cta{margin-top:10px;padding:12px;border-radius:10px;display:flex;align-items:center;justify-content:space-between;gap:12px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01))}
+    .cta a{ padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,var(--blue-1),var(--blue-2)); color:#001426; font-weight:700; text-decoration:none; box-shadow:0 12px 36px rgba(0,120,255,0.14) }
+
+    footer.site-foot{text-align:center;padding:20px;margin-top:24px;color:rgba(234,246,255,0.9)}
+
+    .muted{color:rgba(234,246,255,0.85);font-size:.98rem}
+    .lead{font-size:clamp(1rem,1.6vw,1.12rem);color:rgba(234,246,255,0.94)}
+
+    @media(max-width:720px){ .avatar{width:140px;height:140px} .wrap{padding:18px} }
+    @media(max-width:420px){ nav.top-nav a{padding:8px 10px;font-size:.95rem} .hero-name{font-size:1.2rem} .lead{font-size:.95rem} }
+  </style>
+</head>
+<body>
+
+  <!-- decorative layers -->
+  <div class="bg-shimmer" aria-hidden="true"></div>
+  <div class="luminous" aria-hidden="true"></div>
+
+  <div class="wrap" role="document">
+    <!-- HERO -->
+    <header class="site-hero" id="home" role="banner" aria-label="Intro">
+      <a href="#home" aria-hidden="false" style="display:inline-block">
+        <span class="avatar" aria-hidden="true">
+          <!-- keep this file in the same folder, or replace with base64 for standalone -->
+         <img src="91698c6b-ef6c-46fa-8082-0a37929298c7 copy.jpeg" alt="Lenny Murimi — profile photo" style="width: 200px;">
+        </span>
+      </a>
+
+      <div class="hero-name" aria-hidden="false">Lenny Murimi</div>
+      <div class="hero-sub lead">I design and build modern, responsive websites — clean code, thoughtful UI, and performance-first delivery.</div>
+
+      <nav class="top-nav" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#resume">Resume</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- MAIN -->
+    <main class="sections" role="main">
+      <!-- MAIN COLUMN -->
+      <div class="main-col">
+        <!-- ABOUT -->
+        <section class="glass" id="about" aria-labelledby="about-title">
+          <h2 id="about-title">About</h2>
+          <p class="muted">Hi — I’m Lenny Murimi, a web developer based in Tatu City, Kenya. I enjoy turning ideas into elegant, accessible web experiences. Below are highlights of my background and work.</p>
+
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:14px">
+            <div style="flex:1;min-width:180px">
+              <h3 style="margin-bottom:8px;color:#eaf6ff">Quick Info</h3>
+              <ul style="list-style:none;padding-left:0;color:rgba(234,246,255,0.9)">
+                <li>📍 Tatu City, Kenya</li>
+                <li>🎓 BSc Computer Science</li>
+                <li>💼 Web & UI Developer</li>
+              </ul>
+            </div>
+            <div style="flex:1;min-width:180px">
+              <h3 style="margin-bottom:8px;color:#eaf6ff">Interests</h3>
+              <p class="muted">Design systems, performance optimization, accessibility, photography.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- PROJECTS -->
+        <section class="glass" id="projects" aria-labelledby="projects-title">
+          <h2 id="projects-title">Selected Projects</h2>
+          <div class="projects-grid" role="list">
+
+            <!-- Project: Real project (user provided) -->
+            <article class="project" role="listitem" aria-labelledby="p-real">
+              <div class="media" style="background-image:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop');" aria-hidden="true"></div>
+              <div class="meta">
+                <div class="title" id="p-real">D-web — Personal Site (real)</div>
+                <div class="desc muted">A website you published on GitHub Pages — personal site showcasing web skills and demos.</div>
+                <div class="links">
+                  <a class="link-btn" href="https://leomike1213.github.io/D-web/" target="_blank" rel="noopener">Live demo</a>
+                  <a class="link-btn" href="https://github.com/leomike1213/D-web" target="_blank" rel="noopener">Source (GitHub)</a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Dummy realistic project 1 -->
+            <article class="project" role="listitem" aria-labelledby="p-1">
+              <div class="media" style="background-image:url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop');" aria-hidden="true"></div>
+              <div class="meta">
+                <div class="title" id="p-1">Startup Landing — Example</div>
+                <div class="desc muted">A conversion-optimized landing page with clear CTAs and responsive hero sections.</div>
+                <div class="links">
+                  <a class="link-btn" href="https://www.behance.net/" target="_blank" rel="noopener">View case</a>
+                  <a class="link-btn" href="https://github.com/" target="_blank" rel="noopener">Source</a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Dummy realistic project 2 -->
+            <article class="project" role="listitem" aria-labelledby="p-2">
+              <div class="media" style="background-image:url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop');" aria-hidden="true"></div>
+              <div class="meta">
+                <div class="title" id="p-2">E-commerce Frontend — Example</div>
+                <div class="desc muted">Product grid, filters, and checkout UI built to be accessible and mobile-friendly.</div>
+                <div class="links">
+                  <a class="link-btn" href="https://dribbble.com/" target="_blank" rel="noopener">Live preview</a>
+                  <a class="link-btn" href="https://github.com/" target="_blank" rel="noopener">Source</a>
+                </div>
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+        <!-- TESTIMONIALS -->
+        <section class="glass" id="testimonials" aria-labelledby="testimonials-title">
+          <h2 id="testimonials-title">Testimonials</h2>
+          <div class="testimonials">
+            <div class="testimonial">
+              <strong>Lenny — Product Manager</strong>
+              <p class="muted">“Lenny delivered a sleek, fast site that significantly improved our conversion rate. Excellent communication and design sense.”</p>
+            </div>
+            <div class="testimonial">
+              <strong>LennyMurimi — Founder</strong>
+              <p class="muted">“Highly professional — great attention to detail and accessibility.”</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- SIDE COLUMN -->
+      <aside class="side-col" aria-label="Sidebar">
+        <section class="glass" aria-labelledby="skills-title">
+          <h2 id="skills-title">Skills</h2>
+          <div class="chips" role="list">
+            <span class="chip" role="listitem">HTML5</span>
+            <span class="chip" role="listitem">CSS3 (Grid/Flex)</span>
+            <span class="chip" role="listitem">Responsive Design</span>
+            <span class="chip" role="listitem">Figma</span>
+            <span class="chip" role="listitem">Accessibility</span>
+          </div>
+        </section>
+
+        <section class="glass" id="resume" aria-labelledby="resume-title">
+          <h2 id="resume-title">Resume</h2>
+          <div class="timeline" role="list">
+            <div class="event" role="listitem">
+              <strong>Web Developer — XYZ</strong>
+              <div class="muted">2021 — Present · Front-end systems & UX improvements</div>
+            </div>
+            <div class="event" role="listitem">
+              <strong>Freelance Developer</strong>
+              <div class="muted">2019 — 2021 · Client projects, small businesses</div>
+            </div>
+            <div class="event" role="listitem">
+              <strong>BSc Computer Science</strong>
+              <div class="muted">University of London — 2018</div>
+            </div>
+          </div>
+
+          <div class="cta" style="margin-top:14px">
+            <div class="muted">Interested in collaborating?</div>
+            <a href="mailto:lennymurimi@example.com" style="padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,var(--blue-1),var(--blue-2));color:#001426;font-weight:700;text-decoration:none;box-shadow:0 12px 36px rgba(0,120,255,0.14)">Email me</a>
+          </div>
+        </section>
+
+        <section class="glass" id="contact" aria-labelledby="contact-title">
+          <h2 id="contact-title">Contact</h2>
+          <p class="muted">Email: <a href="mailto:lennymurimistd3@example.com" style="color:var(--accent);text-decoration:none">lennymurimi@example.com</a></p>
+          <p class="muted">Phone: +254 793746359</p>
+          <p class="muted">Tatu City, Kenya</p>
+        </section>
+      </aside>
+
+    </main>
+
+    <footer class="site-foot" role="contentinfo">
+      <div style="opacity:.95">© 2025 <strong>Lenny Murimi</strong> · Bu</div>
+    </footer>
+
+  </div> <!-- /.wrap -->
+
+</body>
+</html>
